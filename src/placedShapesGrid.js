@@ -140,6 +140,21 @@ export class PlacedShapesGrid {
    */
   getBlocksPerPlayer() {
     // TODO
+    let map = new Map();
+    for (let i = 0; i < this.height; i++) {
+        for (let j = 0; j < this.width; j++) {
+        let id = this.getPlayerAt(i, j);
+        if(id !== -1) {
+          if (map.has(id)) {
+            let val = map.get(id);
+            map.set(id, val + 1);
+          } else {
+            map.set(id, 1)
+          }
+        } 
+      }
+    }
+    return map;
   }
 
   /**
@@ -147,5 +162,10 @@ export class PlacedShapesGrid {
    */
   clear() {
     // TODO
+    for (let i = 0; i < this.height; i++) {
+      for (let j = 0; j < this.width; j++) {
+        this.map[i][j] = -1;
+      }
+    }
   }
 }

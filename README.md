@@ -3,7 +3,8 @@
 
 Group members:
 
-- <full_name> (<github_id>)
+- Aude Laydu (eau2)
+- Maxime Lestiboudois (MaximeLesti)
 
 ## Prerequisites
 

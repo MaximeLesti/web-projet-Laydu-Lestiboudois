@@ -39,6 +39,17 @@ export class DrawableGame extends Map {
    */
   getTotalScores() {
     // TODO
+    let map = new Map();
+    let placedShapesScores = this.grid.getBlocksPerPlayer();
+    for(let key of this.keys()) {
+      let playerInfo = this.get(key);
+      let score = playerInfo.clearedLines * scorePerLine;
+      if (placedShapesScores.has(key)) {
+        score -= placedShapesScores.get(key);
+      }
+      map.set(key, score);
+    }
+    return map;
   }
 }
 
@@ -114,7 +125,11 @@ export class Game extends DrawableGame {
 
     this.grid.slamShape(shape);
 
-    this.grid.clearFullRows();
+    // Update clearedLines score 
+    let nbRowsCleared = this.grid.clearFullRows();
+    let playerInfo = this.get(playerId);
+    playerInfo.clearedLines += nbRowsCleared;
+    this.set(playerId, playerInfo);
 
     // Replace this shape and any overlapping falling
     this.addNewFallingShape(player.id);
