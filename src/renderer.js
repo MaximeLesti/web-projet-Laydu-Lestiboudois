@@ -95,6 +95,15 @@ export class Renderer {
    */
   updateScores() {
     // TODO
+    let elem = document.getElementById("scores");
+    let scores = this.game.getTotalScores();
+    const sorted_scores = new Map(Array.from(scores).sort((a, b) => a[1] - b[1]));
+    let scores_str = "";
+    sorted_scores.forEach((id, score) => {
+      let str = "Player " + id + " : " + score + "\n";
+      scores_str += str;
+    });
+    elem.textContent = scores_str;
   }
 
   /**
@@ -102,5 +111,7 @@ export class Renderer {
    */
   showCurrentPlayerId() {
     // TODO
+    let elem = document.getElementById("currentPlayer");
+    elem.textContent = "You are player ${this.playerId}";
   }
 }
