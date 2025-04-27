@@ -190,6 +190,10 @@ export class Game extends DrawableGame {
    */
   introduceNewPlayer(player) {
     // TODO ensure that that player does not already exist, then add it to the game and give it a new shape.
+    if(!this.has(player.getId())) {
+      this.set(player.getId(), player);
+      this.addNewFallingShape(player.getId());
+    }
   }
 
   /**
@@ -249,6 +253,8 @@ export class Game extends DrawableGame {
    */
   quit(playerId) {
     // TODO
+    this.delete(playerId);
+    this.sendMessage(new RemovePlayerMessage(playerId));
   }
 }
 
