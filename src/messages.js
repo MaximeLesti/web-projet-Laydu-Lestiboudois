@@ -70,7 +70,7 @@ export class SetPlayerMessage extends Message {
   getFallingShape() {
     // TODO
     let shape = this.data.shape;
-    return new FallingShape(shape.type, shape.playerId, shape.col, shape.row, shape.rotation);
+    return new FallingShape(shape.shapeType, shape.playerId, shape.col, shape.row, shape.rotation);
   }
 
   getPlayerId() {

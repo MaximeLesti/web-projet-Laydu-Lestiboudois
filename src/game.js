@@ -4,6 +4,7 @@ import {
   RemovePlayerMessage,
   UpdateGridMessage,
   GameOverMessage,
+  MessageCodec,
 } from "./messages.js";
 import { scorePerLine } from "./constants.js";
 
@@ -39,17 +40,20 @@ export class DrawableGame extends Map {
    */
   getTotalScores() {
     // TODO
-    let map = new Map();
+    let mapScores = new Map();
     let placedShapesScores = this.grid.getBlocksPerPlayer();
-    for(let key of this.keys()) {
-      let playerInfo = this.get(key);
-      let score = playerInfo.clearedLines * scorePerLine;
-      if (placedShapesScores.has(key)) {
-        score -= placedShapesScores.get(key);
-      }
-      map.set(key, score);
+    for(let key of placedShapesScores.keys()) {
+      let score = -1 * placedShapesScores.get(key);
+      mapScores.set(key, score);
     }
-    return map;
+    for(let key of this.keys()) {
+      let score = this.get(key).getClearedLines() * scorePerLine;
+      if (mapScores.has(key)) {
+        score += mapScores.get(key);
+      }
+      mapScores.set(key, score);
+    }
+    return mapScores;
   }
 }
 
@@ -82,6 +86,7 @@ export class Game extends DrawableGame {
     }
     if (this.grid.testShape(shape, shape.row, col)) {
       shape.col = col;
+      this.sendMessage(new SetPlayerMessage(this.get(id)));
     }
   }
 
@@ -101,6 +106,7 @@ export class Game extends DrawableGame {
 
     if (this.grid.testShape(shape, shape.row, shape.col, rotation)) {
       shape.rotation = rotation;
+      this.sendMessage(new SetPlayerMessage(this.get(id)));
     }
   }
 
@@ -130,6 +136,7 @@ export class Game extends DrawableGame {
     let playerInfo = this.get(playerId);
     playerInfo.clearedLines += nbRowsCleared;
     this.set(playerId, playerInfo);
+    this.sendMessage(new UpdateGridMessage(this.grid));
 
     // Replace this shape and any overlapping falling
     this.addNewFallingShape(player.id);
@@ -164,6 +171,7 @@ export class Game extends DrawableGame {
       // If they can move down, move them down
       if (this.grid.testShape(shape, row + 1)) {
         shape.row++;
+        this.sendMessage(new SetPlayerMessage(player.id));
       } else {
         // If they cannot move down, ground them
         toSlam.push(shape);
@@ -207,6 +215,7 @@ export class Game extends DrawableGame {
     const player = this.get(id);
     if (player !== undefined) {
       player.shape = shape;
+      this.sendMessage(new SetPlayerMessage(this.get(id)));
     } else {
       throw new Error("Cannot find player with id " + id);
     }
@@ -220,6 +229,7 @@ export class Game extends DrawableGame {
    * Resets the game upon game over.
    */
   gameOver() {
+    this.sendMessage(new GameOverMessage());
     this.clear();
     this.grid.clear();
     this.onGameOver();
@@ -268,6 +278,18 @@ export class Replica extends DrawableGame {
    */
   onMessage(message) {
     // TODO
+    if (message instanceof MessageCodec.types.SetPlayerMessage) {
+      this.set(message.getPlayerId(), message.getPlayer());
+    }
+    if (message instanceof MessageCodec.types.RemovePlayerMessage) {
+      this.delete(message.getPlayerId());
+    }
+    if (message instanceof MessageCodec.types.UpdateGridMessage) {
+      this.grid = message.getGrid();
+    }
+    if (message instanceof MessageCodec.types.GameOverMessage) {
+      this.gameOver();
+    }
   }
 
   /**
@@ -275,5 +297,13 @@ export class Replica extends DrawableGame {
    */
   gameOver() {
     // TODO
+    let bestScore = null;
+
+    for (const [key, value] of this.getTotalScores()) {
+      if (!bestScore || value > bestScore[1]) {
+        bestScore = [key, value];
+      }
+    }
+    alert("The game is over, player ${bestScore[0]} is the winner ! Score : ${bestScore[1]}")
   }
 }
