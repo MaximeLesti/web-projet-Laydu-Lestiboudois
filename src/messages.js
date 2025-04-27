@@ -1,5 +1,6 @@
 import { PlacedShapesGrid } from "./placedShapesGrid.js";
 import { PlayerInfo } from "./playerInfo.js";
+import { FallingShape } from "./fallingShape.js";
 
 /**
  * Parent class for all messages used to communicate between server and client.
@@ -60,6 +61,7 @@ export class SetPlayerMessage extends Message {
    */
   constructor(player) {
     // TODO
+    super(player);
   }
 
   /**
@@ -67,14 +69,18 @@ export class SetPlayerMessage extends Message {
    */
   getFallingShape() {
     // TODO
+    let shape = this.data.shape;
+    return new FallingShape(shape.type, shape.playerId, shape.col, shape.row, shape.rotation);
   }
 
   getPlayerId() {
     // TODO
+    return this.data.id;
   }
 
   getClearedLines() {
     // TODO
+    return this.data.clearedLines;
   }
 
   /**
@@ -82,6 +88,7 @@ export class SetPlayerMessage extends Message {
    */
   getPlayer() {
     // TODO
+    return new PlayerInfo(this.getPlayerId(), this.getFallingShape(), this.getClearedLines());
   }
 }
 
@@ -94,10 +101,12 @@ export class RemovePlayerMessage extends Message {
    */
   constructor(playerId) {
     // TODO
+    super(playerId);
   }
 
   getPlayerId() {
     // TODO
+    return this.data;
   }
 }
 
@@ -110,10 +119,15 @@ export class UpdateGridMessage extends Message {
    */
   constructor(grid) {
     // TODO
+    super(grid);
   }
 
   getGrid() {
     // TODO
+    const grid = this.data;
+    const placedShapesGrid = new PlacedShapesGrid(grid.width, grid.height);
+    placedShapesGrid.map = grid.map;
+    return placedShapesGrid;
   }
 }
 
@@ -123,6 +137,7 @@ export class UpdateGridMessage extends Message {
 export class GameOverMessage extends Message {
   constructor() {
     // TODO
+    super();
   }
 }
 
@@ -135,10 +150,12 @@ export class JoinMessage extends Message {
    */
   constructor(playerId) {
     // TODO
+    super(playerId);
   }
 
   getPlayerId() {
     // TODO
+    return this.data;
   }
 }
 
@@ -162,6 +179,10 @@ export class MessageCodec {
    */
   static encode(message) {
     // TODO encode the message into a string in JSON format
+    return JSON.stringify({
+      type: message.constructor.name,
+      data: message.data,
+    });
   }
 
   /**
@@ -171,5 +192,11 @@ export class MessageCodec {
    */
   static decode(string) {
     // TODO decode the string into an object, ensuring that this object is an instance of the correct message class
+    const {type, data} = JSON.parse(string);
+    const Type = MessageCodec.types[type];
+    if(Type) {
+      return new Type(data);
+    }
+    return new Type();
   }
 }
