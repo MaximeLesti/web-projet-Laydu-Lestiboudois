@@ -113,10 +113,10 @@ export class Renderer {
     // TODO
     let elem = document.getElementById("scores");
     let scores = this.game.getTotalScores();
-    const sorted_scores = new Map(Array.from(scores).sort((a, b) => a[1] - b[1]));
-    let scores_str = "";
+    const sorted_scores = new Map([...scores].sort((a, b) => b[1] - a[1]));
+    let scores_str = "Scores : ";
     sorted_scores.forEach((score, id) => {
-      let str = `Player ${id} : ${score}`;
+      let str = `Player ${id} : ${score} || `;
       scores_str += str;
     });
     elem.textContent = scores_str;
