@@ -1,6 +1,6 @@
 import express from "express";
 import expressWs from "express-ws";
-import { port, stepIntervalMs } from "./src/constants.js";
+import { port, stepIntervalMs, gameCols, gameRows } from "./src/constants.js";
 import { PlacedShapesGrid } from "./src/placedShapesGrid.js";
 import { Game } from "./src/game.js";
 import { JoinMessage, MessageCodec, UpdateGridMessage } from "./src/messages.js";

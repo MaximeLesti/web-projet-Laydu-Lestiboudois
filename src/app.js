@@ -1,8 +1,9 @@
 import { Renderer } from "./renderer.js";
 import { Replica } from "./game.js";
 import { PlacedShapesGrid } from "./placedShapesGrid.js";
-import { gameCols, gameRows } from "./constants.js";
+import { gameCols, gameRows, port } from "./constants.js";
 import { MessageCodec } from "./messages.js";
+import { setListeners } from "./inputListener.js"
 
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");

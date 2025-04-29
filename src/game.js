@@ -1,5 +1,8 @@
 import { FallingShape } from "./fallingShape.js";
 import {
+  MoveMessage,
+  RotateMessage,
+  SlamMessage,
   SetPlayerMessage,
   RemovePlayerMessage,
   UpdateGridMessage,
