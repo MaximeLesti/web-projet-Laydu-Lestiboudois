@@ -9,6 +9,18 @@ export class Renderer {
     this.game = game;
     this.context = context;
     this.playerId = undefined;
+
+    // Liste de couleurs possibles pour les joueurs
+    this.playerColors = [
+      "#FF6347", // Tomate
+      "#4682B4", // Bleu acier
+      "#32CD32", // Vert lime
+      "#FFD700", // Or
+      "#8A2BE2", // Bleu violet
+      "#FF4500", // Orange rouge
+      "#2E8B57", // Vert mer
+      "#D2691E"  // Chocolat
+    ];
   }
 
   /**
@@ -17,6 +29,10 @@ export class Renderer {
    */
   setPlayerId(playerId) {
     this.playerId = playerId;
+  }
+
+  getColorForPlayer(playerId) {
+    return this.playerColors[playerId % this.playerColors.length];
   }
 
   /**
@@ -55,7 +71,7 @@ export class Renderer {
       const coord = coords[i];
       const x = shape.col + coord[0];
       const y = shape.row + coord[1];
-      const color = shapeColors[shape.playerId % shapeColors.length];
+      const color = this.getColorForPlayer(shape.playerId);
       this.renderBlock(x, y, color);
     }
   }
@@ -83,7 +99,7 @@ export class Renderer {
       for (let col = 0; col < this.game.grid.width; col++) {
         const cell = this.game.grid.getPlayerAt(row, col);
         if (cell !== -1) {
-          const color = shapeColors[cell % shapeColors.length];
+          const color = this.getColorForPlayer(cell);
           this.renderBlock(col, row, color);
         }
       }
@@ -100,7 +116,7 @@ export class Renderer {
     const sorted_scores = new Map(Array.from(scores).sort((a, b) => a[1] - b[1]));
     let scores_str = "";
     sorted_scores.forEach((score, id) => {
-      let str = "Player " + id + " : " + score + "\n";
+      let str = `Player ${id} : ${score}`;
       scores_str += str;
     });
     elem.textContent = scores_str;

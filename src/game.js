@@ -307,6 +307,6 @@ export class Replica extends DrawableGame {
         bestScore = [key, value];
       }
     }
-    alert("The game is over, player ${bestScore[0]} is the winner ! Score : ${bestScore[1]}")
+    alert(`The game is over, player ${bestScore[0]} is the winner ! Score : ${bestScore[1]}`)
   }
 }
