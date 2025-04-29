@@ -56,9 +56,7 @@ export class Renderer {
     }
 
     const coords = shape.getCoordinates();
-    const isSelf = shape.playerId === this.playerId;
-
-    const color = this.getColorForPlayer(shape.playerId, isSelf);
+    const color = this.getColorForPlayer(shape.playerId);
    
     for (let i = 0; i < coords.length; i++) {
       const coord = coords[i];
