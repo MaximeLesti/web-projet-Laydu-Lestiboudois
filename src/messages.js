@@ -60,8 +60,21 @@ export class SetPlayerMessage extends Message {
    * @param {PlayerInfo} player The PlayerInfo describing the player's new state.
    */
   constructor(player) {
-    // TODO
-    super(player);
+    const shape = player.shape;
+    const serializable = {
+      id: player.id,
+      clearedLines: player.clearedLines,
+      shape: player.shape
+        ? {
+            shapeType: player.shape.shapeType,
+            playerId: player.shape.playerId,
+            col: player.shape.col,
+            row: player.shape.row,
+            rotation: player.shape.rotation
+        }
+      : null
+  };
+    super(serializable); 
   }
 
   /**
@@ -70,6 +83,7 @@ export class SetPlayerMessage extends Message {
   getFallingShape() {
     // TODO
     let shape = this.data.shape;
+    if(!shape) return undefined;
     return new FallingShape(shape.shapeType, shape.playerId, shape.col, shape.row, shape.rotation);
   }
 
@@ -194,9 +208,9 @@ export class MessageCodec {
     // TODO decode the string into an object, ensuring that this object is an instance of the correct message class
     const {type, data} = JSON.parse(string);
     const Type = MessageCodec.types[type];
-    if(Type) {
-      return new Type(data);
+    if(!Type) {
+      throw new Error(`Unknown message type: ${type}`);
     }
-    return new Type();
+    return new Type(data);
   }
 }

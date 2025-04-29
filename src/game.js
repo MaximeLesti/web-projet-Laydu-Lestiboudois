@@ -174,7 +174,7 @@ export class Game extends DrawableGame {
       // If they can move down, move them down
       if (this.grid.testShape(shape, row + 1)) {
         shape.row++;
-        this.sendMessage(new SetPlayerMessage(player.id));
+        this.sendMessage(new SetPlayerMessage(player));
       } else {
         // If they cannot move down, ground them
         toSlam.push(shape);

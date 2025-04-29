@@ -99,7 +99,7 @@ export class Renderer {
     let scores = this.game.getTotalScores();
     const sorted_scores = new Map(Array.from(scores).sort((a, b) => a[1] - b[1]));
     let scores_str = "";
-    sorted_scores.forEach((id, score) => {
+    sorted_scores.forEach((score, id) => {
       let str = "Player " + id + " : " + score + "\n";
       scores_str += str;
     });
@@ -112,6 +112,6 @@ export class Renderer {
   showCurrentPlayerId() {
     // TODO
     let elem = document.getElementById("currentPlayer");
-    elem.textContent = "You are player ${this.playerId}";
+    elem.textContent = `You are player ${this.playerId}`;
   }
 }

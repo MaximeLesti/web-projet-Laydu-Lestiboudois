@@ -19,7 +19,11 @@ const onGameOver = () => {
 };
 
 const sendMessage = (socket, mess) => {
-  socket.send(MessageCodec.encode(mess));
+ try {
+    socket.send(MessageCodec.encode(mess));
+  } catch (error) {
+    console.error("Erreur lors de l'envoi du message WebSocket: ", error);
+  }
 };
 
 const messageSender = (mess) => {
@@ -50,14 +54,20 @@ app.ws("/", (socket) => {
   game.introduceNewPlayer(playerInfo);
   game.sendMessage(new UpdateGridMessage(game.grid));
   socket.onmessage = (mess) =>  {
-    let messDecoded = MessageCodec.decode(mess);
+    let messDecoded = MessageCodec.decode(mess.data);
     game.onMessage(id, messDecoded);
   }
   // TODO Ensure the game is notified of a player quitting when the socket is closed.
   socket.onclose = () => {
     Players.delete(id);
     game.quit(id);
+    console.log(`Le joueur ${id} a quitté.`);
+
   }
+
+  socket.onerror = (error) => {
+    console.error("Erreur WebSocket: ", error);
+  };
 });
 
 app.listen(port);
