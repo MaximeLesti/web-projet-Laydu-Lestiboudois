@@ -19,10 +19,11 @@ export class Renderer {
     this.playerId = playerId;
   }
 
-  getColorForPlayer(playerId) {
-    const x = playerId === this.playerId ? 1 : 0.5;
-    return shapeColors[playerId % shapeColors.length].replace("x", x);
-  }
+  getColorForPlayer(playerId, isSelf) {
+    let base = shapeColors[playerId % shapeColors.length];
+    const alpha = isSelf ? "1" : "0.5";
+    return base.replace("x", alpha);  }
+
 
   /**
    * Renders a block at the given position and with the given color.
@@ -56,6 +57,11 @@ export class Renderer {
     }
 
     const coords = shape.getCoordinates();
+    const isSelf = shape.playerId === this.playerId;
+    const baseColor = this.getColorForPlayer(shape.playerId, isSelf);
+
+    let color = this.getColorForPlayer(shape.playerId, isSelf);
+   
     for (let i = 0; i < coords.length; i++) {
       const coord = coords[i];
       const x = shape.col + coord[0];
@@ -79,9 +85,15 @@ export class Renderer {
     );
 
     // Draw shapes
-    this.game.forEachFallingShape((s) => {
-      this.renderFallingShape(s);
-    });
+  this.game.forEachFallingShape((s) => {
+    if (s.playerId !== this.playerId) this.renderFallingShape(s);
+  });
+
+// Puis la forme du joueur local
+  this.game.forEachFallingShape((s) => {
+    if (s.playerId === this.playerId) this.renderFallingShape(s);
+});
+
 
     // Draw map
     for (let row = 0; row < this.game.grid.height; row++) {
