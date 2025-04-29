@@ -9,18 +9,6 @@ export class Renderer {
     this.game = game;
     this.context = context;
     this.playerId = undefined;
-
-    // Liste de couleurs possibles pour les joueurs
-    this.playerColors = [
-      "#FF6347", // Tomate
-      "#4682B4", // Bleu acier
-      "#32CD32", // Vert lime
-      "#FFD700", // Or
-      "#8A2BE2", // Bleu violet
-      "#FF4500", // Orange rouge
-      "#2E8B57", // Vert mer
-      "#D2691E"  // Chocolat
-    ];
   }
 
   /**
@@ -32,7 +20,8 @@ export class Renderer {
   }
 
   getColorForPlayer(playerId) {
-    return this.playerColors[playerId % this.playerColors.length];
+    const x = playerId === this.playerId ? 1 : 0.5;
+    return shapeColors[playerId % shapeColors.length].replace("x", x);
   }
 
   /**
