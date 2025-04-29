@@ -38,7 +38,7 @@ socket.addEventListener("message", (event) => {
     renderer.showCurrentPlayerId();
     renderer.render();
   } else {
-    replica.onMessage(msg);
+    replica.onMessage(mess);
     renderer.updateScores();
   }
 });
