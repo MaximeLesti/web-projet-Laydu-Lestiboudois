@@ -32,13 +32,13 @@ export class RotateMessage extends Message {
  */
 export class MoveMessage extends Message {
   /**
-   * @param {Number} col The column the shape should be moved to.
+   * @param {Number} direction +1 to the right, -1 to the left
    */
-  constructor(col) {
-    super(col);
+  constructor(direction) {
+    super(direction);
   }
 
-  getCol() {
+  getDirection() {
     return this.data;
   }
 }

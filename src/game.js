@@ -249,7 +249,12 @@ export class Game extends DrawableGame {
         this.rotateShape(playerId, message.getDirection());
         break;
       case "MoveMessage":
-        this.moveShape(playerId, message.getCol());
+        const shape = this.getFallingShape(playerId);
+        if (shape=== undefined) {
+          break;
+        }
+        const newCol = shape.col + message.getDirection();  
+        this.moveShape(playerId, newCol);
         break;
       case "SlamMessage":
         this.slamShape(playerId);
