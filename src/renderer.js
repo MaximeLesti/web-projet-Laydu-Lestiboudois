@@ -78,7 +78,17 @@ export class Renderer {
       this.context.canvas.width,
       this.context.canvas.height
     );
-
+    this.context.strokeStyle = "#ccc";  // gris clair pour les lignes de la grille
+  for (let row = 0; row < this.game.grid.height; row++) {
+    for (let col = 0; col < this.game.grid.width; col++) {
+      this.context.strokeRect(
+        cellToPixel(col),
+        cellToPixel(row),
+        cellPixelSize,
+        cellPixelSize
+      );
+    }
+  }
     // Draw shapes
   this.game.forEachFallingShape((s) => {
     if (s.playerId !== this.playerId) this.renderFallingShape(s);
@@ -106,16 +116,28 @@ export class Renderer {
    * Updates the scores displayed on the page.
    */
   updateScores() {
-    // TODO
-    let elem = document.getElementById("scores");
-    let scores = this.game.getTotalScores();
-    const sorted_scores = new Map([...scores].sort((a, b) => b[1] - a[1]));
-    let scores_str = "Scores : ";
-    sorted_scores.forEach((score, id) => {
-      let str = `Player ${id} : ${score} || `;
-      scores_str += str;
+    const scores = this.game.getTotalScores();
+    const sortedScores = new Map([...scores].sort((a, b) => b[1] - a[1]));
+    
+    const tbody = document.getElementById("scoresBody");
+    tbody.innerHTML = ""; // Vide le tableau
+    
+    sortedScores.forEach((score, id) => {
+      const row = document.createElement("tr");
+      row.className = id === this.playerId ? "font-bold bg-yellow-100" : "";
+      
+      const playerCell = document.createElement("td");
+      playerCell.className = "px-1";
+      playerCell.textContent = `Player ${id}: `;
+      
+      const scoreCell = document.createElement("td");
+      scoreCell.className = "text-right font-mono";
+      scoreCell.textContent = score;
+      
+      row.appendChild(playerCell);
+      row.appendChild(scoreCell);
+      tbody.appendChild(row);
     });
-    elem.textContent = scores_str;
   }
 
   /**
