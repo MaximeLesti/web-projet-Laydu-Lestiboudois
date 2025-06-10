@@ -14,12 +14,12 @@ export const cellPixelSize = Math.min(
 );
 
 export const shapeColors = [
-  "rgba(0, 0, 255, x)",
-  "rgba(0, 255, 0, x)",
-  "rgba(255, 0, 0, x)",
-  "rgba(255, 255, 0, x)",
+  "rgba(214, 169, 154, x)",
+  "rgba(178, 201, 171, x)",
+  "rgba(54, 21, 30, x)",
+  "rgba(76, 134, 168, x)",
   "rgba(0, 255, 255, x)",
-  "rgba(255, 0, 255, x)",
+  "rgba(212, 194, 252, x)",
 ];
 
 export const shapeTypes = [
