@@ -4,6 +4,7 @@ import { PlacedShapesGrid } from "./placedShapesGrid.js";
 import { gameCols, gameRows, port } from "./constants.js";
 import { MessageCodec } from "./messages.js";
 import { setListeners } from "./inputListener.js"
+import { startGamepadMonitoring } from "./gamepad.js";
 
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
@@ -24,9 +25,12 @@ const socket = new WebSocket(`ws:${window.location.hostname}:${port}`);
 
 // TODO Once the socket is open, set the input listener to send messages to the server.
 socket.addEventListener("open", () => {
-  setListeners(canvas, (mess) => {
+  const sendMessage = (mess) => {
     socket.send(MessageCodec.encode(mess));
-  });
+  };
+
+  setListeners(canvas, sendMessage); // Keyboard/mouse inputs
+  startGamepadMonitoring(sendMessage); // Gamepad inputs
 
 });
 

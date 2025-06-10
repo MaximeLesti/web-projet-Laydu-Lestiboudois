@@ -3,7 +3,7 @@ export const port = 3000;
 export const gameRows = 20;
 export const gameCols = 10;
 
-export const stepIntervalMs = 5000;
+export const stepIntervalMs = 2500;
 
 export const gamePixelWidth = 300;
 export const gamePixelHeight = 600;
@@ -154,3 +154,26 @@ export const shapeTypes = [
 ];
 
 export const scorePerLine = 10;
+
+// Constantes input PS4
+export const PS4_BUTTONS = {
+  CROSS: 0,       // X (bas)
+  CIRCLE: 1,      // O (droite)
+  SQUARE: 2,      // □ (gauche)
+  TRIANGLE: 3,    // △ (haut)
+  L1: 4,
+  R1: 5,
+  L2: 6,
+  R2: 7,
+  SHARE: 8,
+  OPTIONS: 9,
+  LEFT_STICK: 10,
+  RIGHT_STICK: 11,
+  DPAD_UP: 12,
+  DPAD_DOWN: 13,
+  DPAD_LEFT: 14,
+  DPAD_RIGHT: 15,
+  PS: 16,
+  TOUCHPAD: 17
+};
+

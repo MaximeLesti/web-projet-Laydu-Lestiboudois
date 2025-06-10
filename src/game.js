@@ -1,6 +1,7 @@
 import { FallingShape } from "./fallingShape.js";
 import {
   MoveMessage,
+  MoveMessageDirection,
   RotateMessage,
   SlamMessage,
   SetPlayerMessage,
@@ -247,6 +248,14 @@ export class Game extends DrawableGame {
     switch (message.constructor.name) {
       case "RotateMessage":
         this.rotateShape(playerId, message.getDirection());
+        break;
+      case "MoveMessageDirection":
+        const shape = this.getFallingShape(playerId);
+        if (shape=== undefined) {
+          break;
+        }
+        const newCol = shape.col + message.getDirection();  
+        this.moveShape(playerId, newCol);
         break;
       case "MoveMessage":
         this.moveShape(playerId, message.getCol());

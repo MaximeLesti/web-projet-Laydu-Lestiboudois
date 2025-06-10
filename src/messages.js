@@ -44,6 +44,24 @@ export class MoveMessage extends Message {
 }
 
 /**
+ * Message describing a request by the client to move their shape.
+ */
+export class MoveMessageDirection extends Message {
+  /**
+   * @param {Number} direction +1 to the right, -1 to the left
+   */
+  constructor(direction) {
+    super(direction);
+  }
+
+  getDirection() {
+    return this.data;
+  }
+}
+
+
+
+/**
  * Message describing a request by the client to slam their shape.
  */
 export class SlamMessage extends Message {
@@ -179,6 +197,7 @@ export class JoinMessage extends Message {
 export class MessageCodec {
   static types = {
     MoveMessage,
+    MoveMessageDirection,
     RotateMessage,
     SlamMessage,
     SetPlayerMessage,
