@@ -78,7 +78,17 @@ export class Renderer {
       this.context.canvas.width,
       this.context.canvas.height
     );
-
+    this.context.strokeStyle = "#ccc";  // gris clair pour les lignes de la grille
+  for (let row = 0; row < this.game.grid.height; row++) {
+    for (let col = 0; col < this.game.grid.width; col++) {
+      this.context.strokeRect(
+        cellToPixel(col),
+        cellToPixel(row),
+        cellPixelSize,
+        cellPixelSize
+      );
+    }
+  }
     // Draw shapes
   this.game.forEachFallingShape((s) => {
     if (s.playerId !== this.playerId) this.renderFallingShape(s);
