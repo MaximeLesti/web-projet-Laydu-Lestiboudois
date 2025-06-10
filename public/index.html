@@ -1,26 +1,92 @@
-<html>
-  <head>
-    <link
-      href="https://fonts.googleapis.com/css?family=Press+Start+2P"
-      rel="stylesheet"
-      type="text/css" />
-      <meta charset="UTF-8">  
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-      <link href="/src/styles.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tetris</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
+  <style>
+    .game{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #canvas{
+      border: 4px solid #000;
+      border-radius: 8px;
+      background-color: #f8f8f8;
+      box-shadow: 4px 4px 0 #000;
+    }
+    .panel {
+      border: 4px solid #000;
+      border-radius: 8px;
+      background-color: #f8f8f8;
+      box-shadow: 4px 4px 0 #000;
+      height: 50%;
+      width: 50%;
+      margin: 10px;
+      padding: 5px;
+    }
+    
+  </style>
+</head>
 
-  <body>
-    <h1 class="text-3xl font-bold underline">    Hello world!  </h1>
-    <div id="content">
-      <div id="game">
-        <canvas id="canvas" width="300" height="600"></canvas>
-        <div id="infoPannel">
-          <div id="currentPlayer"></div>
-          <div id="scores"></div>
-        </div>
+<body class="min-h-screen bg-gray-100 p-4 flex items-center justify-center">
+
+  <!-- Grille principale : 3 colonnes -->
+
+    <!-- Colonne gauche : PLAYER -->
+    <div class="flex flex-col items-start">
+      <div class="border-2 border-black rounded p-4 bg-white w-full max-w-xs">
+        <h2 class="text-xl font-bold mb-2 text-center" style="font-family: 'Press Start 2P', cursive;">PLAYER</h2>
+        <div id="currentPlayer" class="text-center text-lg">1</div>
       </div>
     </div>
-    <script src="/src/app.js" type="module"></script>
-  </body>
+
+    <!-- Colonne centrale : Titre + Canvas -->
+    <div class="game flex flex-col items-center">
+      <h1 class="text-3xl font-bold mb-6 text-center text-blue-arcade" style="font-family: 'Press Start 2P', cursive;">TETRIS</h1>
+      <div class="border-4 border-black rounded-lg bg-white p-4">
+        <canvas id="canvas" class="border-4 border-black-800 bg-white" width="300" height="600"></canvas>
+      </div>
+    </div>
+
+    <!-- Colonne droite : SCORES -->
+    <div class=" annonce flex flex-col w-[400px] h-full">
+      <div class="flex gap-4 h-full">
+        <!-- Panneau SCORES -->
+        <div class="panel p-4 flex-1">
+          <h2 class="text-xl font-bold mb-3 text-center" style="font-family: 'Press Start 2P', cursive;">SCORES</h2>
+          <table id="scoresTable" class="w-full text-sm font-mono">
+            <tbody id="scoresBody">
+              <tr><td>Joueur 1</td><td class="text-right">100</td></tr>
+              <tr><td>Joueur 2</td><td class="text-right">80</td></tr>
+            </tbody>
+          </table>
+        </div>
+  
+
+      <div class="panel p-4 flex-1">
+        <h2 class="text-xl font-bold mb-3 text-center" style="font-family: 'Press Start 2P', cursive;">COMMANDES</h2>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center">
+            <span class="key mr-2">←→ </span>
+            <span>Déplacer</span>
+          </li>
+          <li class="flex items-center">
+            <span class="key mr-2">☐/⭘</span>
+            <span>Rotation Droite/Gauche</span>
+          </li>
+          <li class="flex items-center">
+            <span class="key mr-2">↓ | X</span>
+            <span>Slam</span>
+          </li>
+        </ul>
+      </div>
+  </div>
+
+  <script src="/src/app.js" type="module"></script>
+</body>
 </html>
