@@ -32,6 +32,22 @@ export class RotateMessage extends Message {
  */
 export class MoveMessage extends Message {
   /**
+   * @param {Number} col The column the shape should be moved to.
+   */
+  constructor(col) {
+    super(col);
+  }
+
+  getCol() {
+    return this.data;
+  }
+}
+
+/**
+ * Message describing a request by the client to move their shape.
+ */
+export class MoveMessageDirection extends Message {
+  /**
    * @param {Number} direction +1 to the right, -1 to the left
    */
   constructor(direction) {
@@ -42,6 +58,8 @@ export class MoveMessage extends Message {
     return this.data;
   }
 }
+
+
 
 /**
  * Message describing a request by the client to slam their shape.
@@ -179,6 +197,7 @@ export class JoinMessage extends Message {
 export class MessageCodec {
   static types = {
     MoveMessage,
+    MoveMessageDirection,
     RotateMessage,
     SlamMessage,
     SetPlayerMessage,

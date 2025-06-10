@@ -3,7 +3,7 @@ export const port = 3000;
 export const gameRows = 20;
 export const gameCols = 10;
 
-export const stepIntervalMs = 1000; //TODO : IT WAS 5000 INTITIALLY, GOT REDUCED FOR TEST PURPOSES.
+export const stepIntervalMs = 2500;
 
 export const gamePixelWidth = 300;
 export const gamePixelHeight = 600;
@@ -177,9 +177,3 @@ export const PS4_BUTTONS = {
   TOUCHPAD: 17
 };
 
-export const AXES = {
-  LEFT_STICK_X: 0,
-  LEFT_STICK_Y: 1,
-  RIGHT_STICK_X: 2,
-  RIGHT_STICK_Y: 3
-};

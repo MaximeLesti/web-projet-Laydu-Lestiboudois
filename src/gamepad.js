@@ -1,5 +1,5 @@
-import { PS4_BUTTONS, AXES } from "./constants.js";
-import { SlamMessage, MoveMessage, RotateMessage } from "./messages.js";
+import { PS4_BUTTONS} from "./constants.js";
+import { SlamMessage, MoveMessageDirection, RotateMessage } from "./messages.js";
 
 let gamepadIndex = null;
 let lastInputTime = 0;
@@ -26,13 +26,13 @@ export function checkGamepad(messageListener) {
     
     // D-PAD LEFT: Déplacer à gauche
     if (gamepad.buttons[PS4_BUTTONS.DPAD_LEFT].pressed) {
-      messageListener(new MoveMessage(-1)); // -1 pour gauche
+      messageListener(new MoveMessageDirection(-1)); // -1 pour gauche
       lastInputTime = now;
     }
     
     // D-PAD RIGHT: Déplacer à droite
     if (gamepad.buttons[PS4_BUTTONS.DPAD_RIGHT].pressed) {
-      messageListener(new MoveMessage(1)); // +1 pour droite
+      messageListener(new MoveMessageDirection(1)); // +1 pour droite
       lastInputTime = now;
     }
     
