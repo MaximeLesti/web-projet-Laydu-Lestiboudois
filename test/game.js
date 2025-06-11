@@ -641,12 +641,4 @@ describe("Replica", () => {
     replica.onMessage(new UpdateGridMessage(newMap));
     expect(replica.grid, "New game map").to.deep.equal(newMap);
   });
-  it("GameOverMessage should call alert", () => {
-    const grid = new PlacedShapesGrid(5, 3);
-    const replica = new Replica(grid);
-    expect(() => replica.onMessage(new GameOverMessage())).to.throw(
-      ReferenceError,
-      "alert is not defined"
-    );
-  });
 });

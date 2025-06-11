@@ -34,6 +34,14 @@ socket.addEventListener("open", () => {
 
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("gameOverModal");
+  if (modal) {
+    modal.classList.add("hidden"); // forçage du masquage au chargement
+  }
+});
+
+
 // TODO Handle messages received on that socket from the server. If the message is a `JoinMessage`, set the player id of the renderer. Otherwise, pass the message to the replica.
 socket.addEventListener("message", (event) => {
   const mess = MessageCodec.decode(event.data);
