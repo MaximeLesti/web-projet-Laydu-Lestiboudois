@@ -308,14 +308,32 @@ export class Replica extends DrawableGame {
    * Displays a popup informing the player that the game is over, and the id of the winning player, along with their score.
    */
   gameOver() {
-    // TODO
     let bestScore = null;
-
+  
     for (const [key, value] of this.getTotalScores()) {
       if (!bestScore || value > bestScore[1]) {
         bestScore = [key, value];
       }
     }
-    alert(`The game is over, player ${bestScore[0]} is the winner ! Score : ${bestScore[1]}`)
+  
+    // Affiche le message du gagnant
+    document.getElementById("winnerMessage").textContent =
+      `Le joueur ${bestScore[0]} a gagné avec ${bestScore[1]} points !`;
+  
+    const modal = document.getElementById("gameOverModal");
+    modal.classList.remove("hidden");
+  
+    // Bouton "Rejouer"
+    document.getElementById("restartBtn").onclick = () => {
+      modal.classList.add("hidden");
+      location.reload(); // ou this.restartGame();
+    };
+  
+    // Bouton "X"
+    document.getElementById("closeModalBtn").onclick = () => {
+      modal.classList.add("hidden");
+    };
   }
+  
+  
 }
